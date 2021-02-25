@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed>
+<title type="text">Label Description File</title>
+
+<feed>
+    <label>
+        <id>007</id>
+        <ssm>bnr</ssm>
+    </label>
+    <label>
+        <id>008</id>
+        <ssm>bcd</ssm>
+    </label>
+</feed>
