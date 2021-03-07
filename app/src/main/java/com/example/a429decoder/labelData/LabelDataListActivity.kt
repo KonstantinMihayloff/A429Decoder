@@ -2,6 +2,7 @@ package com.example.a429decoder.labelData
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.a429decoder.R
@@ -24,14 +25,21 @@ class LabelDataListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_label_data_list)
 
-        var labelFromIntent = intent.getBooleanArrayExtra(EXTRA_LABEL)
+        // Get label from intent
+        var longLabel = intent.getLongExtra(EXTRA_LABEL, 0)
+
+        // Convert label to a string of bits
+        var bitStringLabel = longLabel.toString(2)
 
         labelData = mutableListOf()
 
-        var i = 0
-        labelFromIntent.forEach { data ->
-            i += 1
-            labelData.add(LabelData(i.toString(), "PUT_LABEL_HERE",data.toString()))
+        // Add every data to the array
+        for(i in 1..LABEL_BIT_SIZE){
+            if(i <= bitStringLabel.length) {
+                labelData.add(LabelData(i.toString(), "PUT_LABEL_HERE", bitStringLabel[bitStringLabel.length - i].toString()))
+            } else {
+                labelData.add(LabelData(i.toString(), "PUT_LABEL_HERE", "0"))
+            }
         }
 
         adapter = LabelDataAdapter(labelData)
@@ -40,7 +48,5 @@ class LabelDataListActivity : AppCompatActivity() {
 
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapter
-
-        adapter.notifyDataSetChanged()
     }
 }

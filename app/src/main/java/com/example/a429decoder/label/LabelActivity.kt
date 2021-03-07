@@ -31,21 +31,20 @@ class LabelActivity : AppCompatActivity() {
     }
 
     // Function to decode the label and send it to LabelDetailActivity as a parcelable extra
-    fun decodeLabel(label: String) {
+    private fun decodeLabel(label: String) {
         // Log for debug
         Log.d(TAG, "Decode Button Clicked: Staring label decoding")
 
-        val intLabel = label.hexStringToUInt()
-        Log.d("Utils", "Integer value is $intLabel")
+        // Conversion of hexadecimal string to a long value that will be passed to the next
+        // activity as an intent extra
+        var longLabel = label.toLong(16)
+        Log.d(TAG, "Long value of label is $longLabel")
 
-        val bitSetLabel = intLabel.toBooleanArray()
-        //Log.d("Utils", "Bit value is ${bitSetLabel.get(0)}")
-
-        startLabelDescriptionActivity(bitSetLabel)
+        startLabelDescriptionActivity(longLabel)
     }
 
     // Function used to start the LabelDetailActivity
-    fun startLabelDescriptionActivity(label: BooleanArray) {
+    private fun startLabelDescriptionActivity(label: Long) {
         // Log for debug
         Log.d(TAG, "Decode Button Clicked: Sending to LabelDetailActivity")
 
@@ -55,22 +54,5 @@ class LabelActivity : AppCompatActivity() {
 
         // Starting LabelDetail Activity
         startActivity(intent)
-    }
-
-    fun byteArrayOfInts(vararg ints: Int) = ByteArray(ints.size) { pos -> ints[pos].toByte() }
-
-    fun String.hexStringToByteArrayOrig() : ByteArray {
-
-        val result = ByteArray(length / 2)
-
-        for (i in 0 until length step 2) {
-            val firstIndex = this.indexOf(this[i]);
-            val secondIndex = this.indexOf(this[i + 1]);
-
-            val octet = firstIndex.shl(4).or(secondIndex)
-            result.set(i.shr(1), octet.toByte())
-        }
-
-        return result
     }
 }
