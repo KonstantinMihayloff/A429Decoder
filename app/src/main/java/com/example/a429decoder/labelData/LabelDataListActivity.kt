@@ -31,14 +31,19 @@ class LabelDataListActivity : AppCompatActivity() {
         // Convert label to a string of bits
         var bitStringLabel = longLabel.toString(2)
 
+        // Get label number
+        val labelId = getLabelId(longLabel)
+
+        // labelData initialisation
         labelData = mutableListOf()
+        labelData.add(LabelData("Label ID", labelId))
 
         // Add every data to the array
-        for(i in 1..LABEL_BIT_SIZE){
+        for(i in 9..LABEL_BIT_SIZE){
             if(i <= bitStringLabel.length) {
-                labelData.add(LabelData(i.toString(), "PUT_LABEL_HERE", bitStringLabel[bitStringLabel.length - i].toString()))
+                labelData.add(LabelData(i.toString(), bitStringLabel[bitStringLabel.length - i].toString()))
             } else {
-                labelData.add(LabelData(i.toString(), "PUT_LABEL_HERE", "0"))
+                labelData.add(LabelData(i.toString(), "0"))
             }
         }
 

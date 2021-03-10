@@ -41,7 +41,7 @@ class LabelDataAdapter(private val labelDatas: List<LabelData>)
 
         // Filling ViewHolder with info
         holder.cardView.tag = position
-        holder.dataNameView.text = labelData.name
+        holder.dataNameView.text = labelData.contentDescription
         holder.dataContentView.text = labelData.value
     }
 
