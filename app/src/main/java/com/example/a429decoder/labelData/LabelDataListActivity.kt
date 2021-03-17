@@ -11,7 +11,7 @@ class LabelDataListActivity : AppCompatActivity() {
 
     // Companion Object Definition
     companion object{
-        val EXTRA_LABEL = "label"
+        const val EXTRA_LABEL = "label"
     }
 
     // lateinit var
@@ -31,21 +31,30 @@ class LabelDataListActivity : AppCompatActivity() {
         // Convert label to a string of bits
         var bitStringLabel = longLabel.toString(2)
 
-        // Get label number
+        // Get label properties
         val labelId = getLabelId(longLabel)
+        val labelSdi = getLabelSDI(longLabel)
+        val labelSsm = getLabelSSM(longLabel)
 
         // labelData initialisation
         labelData = mutableListOf()
         labelData.add(LabelData("Label ID", labelId))
+        labelData.add(LabelData("SDI", labelSdi))
 
         // Add every data to the array
-        for(i in 9..LABEL_BIT_SIZE){
+        bitStringLabel = completeWithZero(bitStringLabel, LABEL_TOTAL_BIT_SIZE)
+
+        for(i in (LABEL_ID_BIT_SIZE + LABEL_SDI_BIT_SIZE + 1) until LABEL_TOTAL_BIT_SIZE - LABEL_SSM_BIT_SIZE){
             if(i <= bitStringLabel.length) {
                 labelData.add(LabelData(i.toString(), bitStringLabel[bitStringLabel.length - i].toString()))
             } else {
                 labelData.add(LabelData(i.toString(), "0"))
             }
         }
+
+        Log.d(TAG, "bitStringLabel : $bitStringLabel")
+        labelData.add(LabelData("SSM", labelSsm))
+        labelData.add(LabelData("Parity", bitStringLabel[0].toString()))
 
         adapter = LabelDataAdapter(labelData)
 
